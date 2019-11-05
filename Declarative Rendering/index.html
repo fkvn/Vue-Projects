@@ -4,20 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <title>Document</title>
 </head>
 <body>
-    
+    <h1> Hello Vue</h1>
     <!-- making a simple Vue example -->
-    <!--1. Create a list of students with id, name, gpa, phone number, and email address -->
-    <!--2. Display the list of students with id, name, and gpa-->
-    <!--3. Display student's phone number if a user is a teacher  -->
+
+    <!-- Display the list of students with id, name, and gpa-->
+    <br><h4>List of Students: </h4>
+    
+    <div id="students">
+        <ol v-if="studentList.length > 0">
+            <li v-for="student in studentList" v:key="student.id" :class="{'text-danger': student.gpa < 3.7}">
+                Name: {{student.name}}, GPA: {{student.gpa}} 
+                <button v-if="!allowEdit" type="button"  class="btn btn-outline-primary btn-sm">Edit</button>
+            </li>
+            
+        </ol>
+        <p v-else>There is no students in this class </p>.
+    </div>
+
+
+
+    
+    
+    
+    
+    <!-- Display student's phone number if a user is a teacher  -->
     <!--4. Display student's email if a user hovers student's name  -->
     <!--5. Have a edit button to allow users to edit any student's name-->
     <!--6. Display list of good students who has gpa > 3.7 (using component) -->
     <!--7. Display list of good students who has gpa > 3.7 (using component) -->
     
     
-    
+    <script src="vue.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
