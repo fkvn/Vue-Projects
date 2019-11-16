@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+<div id="app">
+    <div class="container">
+        <h2 class="jumbotron">Articles</h2>
+        <div class="card mt-5" v-for="article in articles">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-9">
+                       <h3> {{article.title}} </h3>
+                    </div>
+                    <div class="col-3">
+                        <button @click="removeArticle(article.id)" class="btn btn-warning float-right">remove</button>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{article.text}}</h4>
+                <h6 class="card-text">Author: {{ getUserNameById(article.author)}}</h6>
+                <h6 class="text-muted">Tags: <span v-for="tag in article.tags"> {{tag}},</span></h6>
+                <hr>
+                <h4 class="text-primary">Comments</h4>
+                <div v-for="comment in article.comments">
+                    {{comment.author.firstName + " " + comment.author.lastName}}
+                    <span class="text-muted" style="font-size: small;">{{comment.date.toISOString().slice(0, 16).replace('T',' ')}}</span>
+                    <p class="ml-4"> {{comment.text}}</p>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center">
+                {{article.date.toISOString().slice(0, 16).replace('T',' ')}}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            users: [],
+            articles: [],
+            userId: 1,
+            articleId: 1
+        },
+        created: function () {
+            this.init()
+        },
+        methods: {
+            init: function () {
+                this.users.push(
+                    {
+                        id: this.userId++,
+                        firstName: 'John',
+                        lastName: 'Doe',
+                        email: 'jdoe1@localhost'
+                    }, 
+                    {
+                        id: this.userId++,
+                        firstName: 'Jane',
+                        lastName: 'Doe',
+                        email: 'jdoe2@localhost'
+                })
+
+                this.articles.push(
+                    {
+                        id: this.articleId++,
+                        title: 'Using MongoDB',
+                        text: 'Something about MongoDB',
+                        author: 1,
+                        date: new Date(2017, 2, 20),
+                        comments: [
+                            {
+                                text: 'I like this article!',
+                                author: {
+                                    id: 1,
+                                    firstName: 'Jane',
+                                    lastName: 'Doe'
+                                },
+                                date: new Date(2017, 2, 22)
+                            }
+                        ],
+                        tags: ['NoSQL', 'MongoDB', 'Web Development']
+                    }, {
+                        id: this.articleId++,
+                        title: 'Programming Node.js',
+                        text: 'Something about Node.js',
+                        author: 2,
+                        date: new Date(2017, 3, 1),
+                        comments: [{
+                        text: 'Thank you for the article.',
+                        author: {
+                            id: 2,
+                            firstName: 'John',
+                            lastName: 'Doe'
+                        },
+                        date: new Date(2017, 3, 2)
+                        }],
+                        tags: ['JavaScript', 'Node.js', 'Web Development']
+                    }
+                )
+            },
+            getUserNameById: function(user_id) {
+                const index = this.users.map(user => {if (user.id == user_id) return user}).indexOf(user_id);
+                user = this.users[index]
+                return user.firstName + " " + user.lastName
+            },
+            removeArticle: function (article_id) {
+                const index = this.articles.map(e => e.id).indexOf(article_id);
+                this.articles.splice(index, 1)
+            }
+        }
+    });
+</script>
